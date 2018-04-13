@@ -26,6 +26,13 @@ suite =
             msg
                 |> Elmer.Html.Element.target ".hoho"
                 |> (element <| Elmer.Html.Matchers.hasText text)
+
+        checkRow : Int -> Matcher (List (HtmlElement msg))
+        checkRow index =
+            atIndex index
+                ((checkHaha ("haha" ++ (toString index)))
+                    <&&> (checkHoho ("hoho" ++ (toString index)))
+                )
     in
         describe "my app"
             [ describe "initial state"
@@ -36,12 +43,12 @@ suite =
                             |> expect
                                 (elements <|
                                     ((hasLength 6)
-                                        <&&> (atIndex 0 ((checkHaha "haha0") <&&> (checkHoho "hoho0")))
-                                        <&&> (atIndex 1 ((checkHaha "haha1") <&&> (checkHoho "hoho1")))
-                                        <&&> (atIndex 2 ((checkHaha "haha2") <&&> (checkHoho "hoho2")))
-                                        <&&> (atIndex 3 ((checkHaha "haha3") <&&> (checkHoho "hoho3")))
-                                        <&&> (atIndex 4 ((checkHaha "haha4") <&&> (checkHoho "hoho4")))
-                                        <&&> (atIndex 5 ((checkHaha "haha5") <&&> (checkHoho "hoho5")))
+                                        <&&> checkRow 0
+                                        <&&> checkRow 1
+                                        <&&> checkRow 2
+                                        <&&> checkRow 3
+                                        <&&> checkRow 4
+                                        <&&> checkRow 5
                                     )
                                 )
                 ]
